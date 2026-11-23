@@ -1,0 +1,44 @@
+@using ExerciciosASPNET.ViewModels
+
+@model BuscaEventoViewModel
+@{
+    ViewData["Title"] = "Buscar aluno";
+}
+
+<h1>Buscar aluno</h1>
+<form asp-action="Buscar" method="post">
+    <input asp-for="NomeBusca" placeholder="Nome do evento..." />
+    <input asp-for="LocalBusca" placeholder="Local do evento..." />
+    <input asp-for="DataInicial" type="date"/>
+    <button type="submit">Buscar</button>
+</form>
+
+@if(Model.Resultados.Any())
+{
+    <table>
+        <tr>
+            <th>Nome</th>
+            <th>Descrição</th>
+            <th>Local</th>
+            <th>Data do evento</th>
+            <th>Quantidade de vagas</th>
+            <th>Valor do Ingresso</th>
+        </tr>
+        @foreach(Evento a in Model.Resultados)
+        {
+            <tr>
+                <td>@a.Nome</td>
+                <td>@a.Descricao</td>
+                <td>@a.Local</td>
+                <td>@a.DataEvento.ToShortDateString()</td>
+                <td>@a.QuantidadeVagas.ToString("N0")</td>
+                <td>@a.ValorIngresso.ToString("C")</td>
+            </tr>
+        }
+    </table>
+}
+
+else if(Context.Request.Method == "POST")
+{
+    <p>Nenhum evento encontrado para o filtro informado.</p>
+}
